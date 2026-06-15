@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+# .pyc (compiled bytecode files), .pyo (optimized bytecode files), .pyd (python extension modules) are ignored
+*.py[cod]
+
+# Virtual Environment
+.venv/
+.env
+
+# Django
+db.sqlite3
+
+# VS Code
+.vscode/
