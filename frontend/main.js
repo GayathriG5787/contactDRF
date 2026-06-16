@@ -69,6 +69,9 @@ async function addContact(e) {
         clearError();
         form.reset();
         loadContacts();
+            showSuccessToast(
+        "Contact saved successfully!"
+    );
         return;
     }
 
@@ -90,6 +93,10 @@ async function deleteContact(contactId) {
   });
 
   loadContacts();
+
+  showSuccessToast(
+    "Contact deleted successfully!"
+);
 }
 
 let selectedContactId = null;
@@ -175,6 +182,10 @@ async function updateContact() {
             .hide();
 
         loadContacts();
+
+            showSuccessToast(
+        "Contact updated successfully!"
+    );
     }
 }
 
@@ -215,4 +226,23 @@ function showError(message) {
     errorDiv.innerHTML = message; // use innerHTML because of <br>
 
     errorDiv.classList.remove("d-none");
+}
+
+function showSuccessToast(message) {
+    const toastElement =
+        document.getElementById("successToast");
+
+    toastElement.querySelector(
+        ".toast-body"
+    ).textContent = message;
+
+    const toast =
+        new bootstrap.Toast(
+            toastElement,
+            {
+                delay: 3000
+            }
+        );
+
+    toast.show();
 }
