@@ -45,28 +45,35 @@ function renderContacts(contacts) {
 document.getElementById("contactForm").addEventListener("submit", addContact);
 
 async function addContact(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = document.getElementById("contactForm");
+    clearError();
 
-  const contact = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    email: document.getElementById("email").value,
-  };
+    const form = document.getElementById("contactForm");
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(contact),
-  });
+    const contact = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+    };
 
-  if (response.ok) {
-    form.reset(); // Clears all form fields
-    loadContacts();
-  }
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact),
+    });
+
+    if (response.ok) {
+        form.reset();
+        loadContacts();
+        return;
+    }
+
+    const errorData = await response.json();
+
+    showError(JSON.stringify(errorData));
 }
 
 // Delete contacts
@@ -181,3 +188,20 @@ document
         updateContact
     );
 
+function showError(message) {
+    const errorDiv = document.getElementById("errorMessage");
+    errorDiv.textContent = message;
+    errorDiv.classList.remove("d-none");
+}
+
+function clearError() {
+    const errorDiv = document.getElementById("errorMessage");
+    errorDiv.textContent = "";
+    errorDiv.classList.add("d-none");
+}
+
+function formatErrors(errors) {
+    return Object.entries(errors)
+        .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
+        .join(" | ");
+}
