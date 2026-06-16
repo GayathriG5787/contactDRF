@@ -29,6 +29,10 @@ function renderContacts(contacts) {
 
     clone.querySelector(".contact-email").textContent = contact.email;
 
+    const editButton = clone.querySelector(".edit-btn");
+
+    editButton.addEventListener("click", () => editContact(contact));
+
     const deleteButton = clone.querySelector(".delete-btn");
 
     deleteButton.addEventListener("click", () => deleteContact(contact.id));
@@ -82,4 +86,57 @@ async function deleteContact(contactId) {
   });
 
   loadContacts();
+}
+
+// Edit contacts
+async function editContact(contact) {
+
+    const newName = prompt(
+        "Enter new name",
+        contact.name
+    );
+
+    if (newName === null) {
+        return;
+    }
+
+    const newPhone = prompt(
+        "Enter new phone",
+        contact.phone
+    );
+
+    if (newPhone === null) {
+        return;
+    }
+
+    const newEmail = prompt(
+        "Enter new email",
+        contact.email
+    );
+
+    if (newEmail === null) {
+        return;
+    }
+
+    const response = await fetch(
+        `${API_URL}${contact.id}/`,
+        {
+            method: "PATCH",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+                name: newName,
+                phone: newPhone,
+                email: newEmail
+            })
+        }
+    );
+
+    if (response.ok) {
+        loadContacts();
+    }
 }
