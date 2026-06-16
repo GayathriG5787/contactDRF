@@ -1,3 +1,4 @@
+import re
 from rest_framework import serializers
 from contacts.models import Contact
 
@@ -14,4 +15,10 @@ class ContactSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Name must contain at least 3 characters."
             )
+            
+        if not re.search(r"[A-Za-z]", value):
+            raise serializers.ValidationError(
+                "Name must contain at least one letter."
+        )
+            
         return value
