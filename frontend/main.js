@@ -35,8 +35,10 @@ function renderContacts(contacts) {
 
     const deleteButton = clone.querySelector(".delete-btn");
 
-    deleteButton.addEventListener("click", () => deleteContact(contact.id));
-
+    deleteButton.addEventListener(
+        "click",
+        () => openDeleteModal(contact.id)
+    );
     container.appendChild(clone);
   });
 }
@@ -81,25 +83,33 @@ async function addContact(e) {
 }
 
 // Delete contacts
-async function deleteContact(contactId) {
-  const confirmed = confirm("Are you sure you want to delete this contact?");
+async function deleteContact() {
 
-  if (!confirmed) {
-    return;
-  }
+    await fetch(
+        `${API_URL}${selectedDeleteId}/`,
+        {
+            method: "DELETE"
+        }
+    );
 
-  await fetch(`${API_URL}${contactId}/`, {
-    method: "DELETE",
-  });
+    const modalElement =
+        document.getElementById(
+            "deleteModal"
+        );
 
-  loadContacts();
+    bootstrap.Modal
+        .getInstance(modalElement)
+        .hide();
 
-  showSuccessToast(
-    "Contact deleted successfully!"
-);
+    loadContacts();
+
+    showSuccessToast(
+        "Contact deleted successfully!"
+    );
 }
 
 let selectedContactId = null;
+let selectedDeleteId = null;
 
 // Modal with prefilled values
 
@@ -187,18 +197,12 @@ async function updateContact() {
         "Contact updated successfully!"
     );
     }
+
 }
 
-loadContacts();
 
-document
-    .getElementById(
-        "updateBtn"
-    )
-    .addEventListener(
-        "click",
-        updateContact
-    );
+
+
 
 function showError(message) {
     const errorDiv = document.getElementById("errorMessage");
@@ -218,6 +222,20 @@ function formatErrors(errors) {
             return `${field}: ${messages.join(", ")}`;
         })
         .join("<br>");
+}
+
+function openDeleteModal(contactId) {
+
+    selectedDeleteId = contactId;
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "deleteModal"
+            )
+        );
+
+    modal.show();
 }
 
 function showError(message) {
@@ -246,3 +264,23 @@ function showSuccessToast(message) {
 
     toast.show();
 }
+
+document
+    .getElementById(
+        "updateBtn"
+    )
+    .addEventListener(
+        "click",
+        updateContact
+    );
+
+document
+    .getElementById(
+        "confirmDeleteBtn"
+    )
+    .addEventListener(
+        "click",
+        deleteContact
+    );
+
+loadContacts();
