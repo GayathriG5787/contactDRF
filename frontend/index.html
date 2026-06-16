@@ -1,107 +1,305 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Contact Directory</title>
 
-    <!-- Bootstrap CDN link -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    
+    <link 
+      rel="stylesheet" 
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+        /* Professional Slate & Steel Color Palette */
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --text-muted: #94a3b8;
+        --primary-accent: #3b82f6;
+        --primary-hover: #2563eb;
+        }
+
+        body {
+        background-color: var(--bg-color);
+        color: #f8fafc;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        min-height: 100vh;
+        letter-spacing: -0.01em;
+        }
+
+        /* Professional Clean Cards */
+        .glass-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Inputs Customization */
+        .form-control {
+        background-color: #0f172a;
+        border: 1px solid var(--border-color);
+        color: #fff;
+        border-radius: 4px;
+        padding: 0.6rem 1rem;
+        transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+        background-color: #0f172a;
+        border-color: var(--primary-accent);
+        color: #fff;
+        box-shadow: none;
+        }
+
+        .form-control::placeholder {
+        color: var(--text-muted);
+        }
+
+        /* Clean Button Designs */
+        .btn {
+        border-radius: 4px;
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.2s ease;
+        }
+        .btn-primary {
+        background-color: var(--primary-accent);
+        border: none;
+        }
+        .btn-primary:hover {
+        background-color: var(--primary-hover);
+        }
+
+        /* Icon Buttons Formatting */
+        .icon-btn {
+        background: none;
+        border: none;
+        padding: 6px;
+        font-size: 1.2rem;
+        line-height: 1;
+        transition: color 0.2s ease;
+        }
+        .edit-btn { color: #f59e0b; }
+        .edit-btn:hover { color: #d97706; }
+        .delete-btn { color: #ef4444; }
+        .delete-btn:hover { color: #dc2626; }
+
+        /* Divider style */
+        hr {
+        border-top: 1px solid var(--border-color);
+        opacity: 1;
+        margin: 2.5rem 0;
+        }
+
+        /* Dark Modals Styling */
+        .modal-content {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: #f8fafc;
+        }
+        .modal-header, .modal-footer {
+        border-color: var(--border-color);
+        }
+        .btn-close {
+        filter: invert(1);
+        }
+
+        /* Wrapper for handling long continuous text strings gracefully */
+        .contact-details-container {
+        min-width: 0; 
+        flex: 1;
+        }
+
+        /* =========================================================
+        COMPACT & ULTRA-MICROSCOPIC RESPONSIVENESS (Down to 170px)
+        ========================================================= */
+        @media (max-width: 400px) {
+        .container {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+            margin-top: 1rem !important;
+        }
+
+        h1 {
+            font-size: 1.3rem !important;
+            text-align: center;
+        }
+
+        .glass-card {
+            padding: 1rem !important;
+        }
+
+        .card-body {
+            padding: 12px !important;
+        }
+
+        .form-control, .btn {
+            font-size: 0.85rem !important;
+            padding: 0.5rem 0.7rem !important;
+        }
+
+        /* Force long text strings, emails, and numbers to wrap cleanly */
+        .contact-name {
+            font-size: 1rem !important;
+            white-space: normal;
+            word-break: break-word;
+        }
+        
+        .contact-phone, .contact-email {
+            font-size: 0.8rem !important;
+            white-space: normal;
+            word-break: break-all; 
+        }
+        }
+
+        /* The ultimate fallback breakpoint when components physically exhaust display widths */
+        @media (max-width: 280px) {
+        /* Safely drop flex elements into stacked configurations */
+        .card-body.d-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px;
+        }
+
+        /* Align icon operations to the left margin once stacked */
+        .action-buttons-container {
+            width: 100%;
+            justify-content: flex-start;
+            border-top: 1px solid #334155;
+            padding-top: 8px;
+        }
+        }
+    </style>
   </head>
 
   <body>
-    <div class="container mt-5">
-      <h1 class="mb-4">Contact Directory</h1>
+    <div class="container mt-5" style="max-width: 600px;">
+      <h1 class="mb-4 text-center fw-bold text-white">
+        Contact Directory
+      </h1>
 
-      <form id="contactForm">
-        <input
-          type="text"
-          id="name"
-          class="form-control mb-3"
-          placeholder="Name"
-        />
+      <div class="glass-card p-4 mb-4">
+        <form id="contactForm">
+          <div class="mb-3">
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              placeholder="Name"
+              required
+            />
+          </div>
 
-        <input
-          type="text"
-          id="phone"
-          class="form-control mb-3"
-          placeholder="Phone"
-        />
+          <div class="mb-3">
+            <input
+              type="text"
+              id="phone"
+              class="form-control"
+              placeholder="Phone"
+              required
+            />
+          </div>
 
-        <input
-          type="email"
-          id="email"
-          class="form-control mb-3"
-          placeholder="Email"
-        />
+          <div class="mb-3">
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Email"
+              required
+            />
+          </div>
 
-        <button class="btn btn-primary" type="submit">Save Contact</button>
-      </form>
+          <button class="btn btn-primary w-100" type="submit">Save Contact</button>
+        </form>
+      </div>
 
       <hr />
 
       <div id="contactList"></div>
 
       <template id="contact-template">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="contact-name"></h5>
+        <div class="card glass-card mb-3">
+          <div class="card-body p-4 d-flex justify-content-between align-items-center">
+            
+            <div class="contact-details-container">
+              <h5 class="contact-name fw-bold mb-2 text-white"></h5>
+              <p class="contact-phone text-muted mb-1" style="font-size: 0.95rem;"></p>
+              <p class="contact-email text-muted mb-0" style="font-size: 0.95rem;"></p>
+            </div>
+            
+            <div class="action-buttons-container d-flex gap-2 align-items-center">
+              <button class="icon-btn edit-btn" title="Edit Contact">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="icon-btn delete-btn" title="Delete Contact">
+                <i class="bi bi-trash3-fill"></i>
+              </button>
+            </div>
 
-            <p class="contact-phone"></p>
-
-            <p class="contact-email"></p>
-
-            <button class="btn btn-warning edit-btn">Edit</button>
-
-            <button class="btn btn-danger delete-btn">Delete</button>
           </div>
         </div>
       </template>
     </div>
 
-    <div class="modal fade" id="editModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm-custom">
+        <div class="modal-content shadow-lg mx-3">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Contact</h5>
-
+            <h5 class="modal-title fw-bold">Edit Contact</h5>
             <button
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
+              aria-label="Close"
             ></button>
           </div>
 
           <div class="modal-body">
-            <input type="text" id="editName" class="form-control mb-3" />
-
-            <input type="text" id="editPhone" class="form-control mb-3" />
-
-            <input type="email" id="editEmail" class="form-control" />
+            <div class="mb-3">
+              <input type="text" id="editName" class="form-control" placeholder="Name" />
+            </div>
+            <div class="mb-3">
+              <input type="text" id="editPhone" class="form-control" placeholder="Phone" />
+            </div>
+            <div>
+              <input type="email" id="editEmail" class="form-control" placeholder="Email" />
+            </div>
           </div>
 
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">
+            <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-
-            <button id="updateBtn" class="btn btn-primary">Update</button>
+            <button id="updateBtn" class="btn btn-sm btn-primary">
+              Update
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
 
-    <!-- Custom JS -->
     <script src="main.js"></script>
   </body>
 </html>
