@@ -100,6 +100,7 @@ let selectedDeleteId = null;
 function openEditModal(contact) {
   selectedContactId = contact.id;
 
+  // fresh modal
   clearEditError();
 
   document.getElementById("editName").value = contact.name;
@@ -113,6 +114,7 @@ function openEditModal(contact) {
 
 // Edit contacts
 async function updateContact() {
+  // fresh requests
   clearEditError();
 
   const updatedData = {
