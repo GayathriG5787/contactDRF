@@ -45,30 +45,28 @@ function renderContacts(contacts) {
 document.getElementById("contactForm").addEventListener("submit", addContact);
 
 async function addContact(e) {
-  // To prevent default page reloads before JS finishes
   e.preventDefault();
+
+  const form = document.getElementById("contactForm");
 
   const contact = {
     name: document.getElementById("name").value,
-
     phone: document.getElementById("phone").value,
-
     email: document.getElementById("email").value,
   };
 
-  //   fetch sends an HTTP request
-  await fetch(API_URL, {
+  const response = await fetch(API_URL, {
     method: "POST",
-
-    // For backend to understand the format of the data (JSON) that we are sending
     headers: {
       "Content-Type": "application/json",
     },
-
     body: JSON.stringify(contact),
   });
 
-  loadContacts();
+  if (response.ok) {
+    form.reset(); // Clears all form fields
+    loadContacts();
+  }
 }
 
 // Delete contacts
