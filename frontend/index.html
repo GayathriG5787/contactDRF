@@ -113,8 +113,9 @@
       </template>
     </div>
 
+    <!-- tabindex = -1 removes the element from keyboard navigation -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-sm-custom">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg mx-3">
           <div class="modal-header">
             <h5 class="modal-title fw-bold">Edit Contact</h5>
@@ -128,22 +129,31 @@
 
           <div class="modal-body">
             <div class="mb-3">
+            <label for="editName" class="custom-label">
+              Name <span class="required">*</span>
+            </label>
               <input
                 type="text"
                 id="editName"
                 class="form-control"
                 placeholder="Name"
+                required
               />
             </div>
             <div class="mb-3">
+            <label for="editPhone" class="custom-label">
+              Phone <span class="required">*</span>
+            </label>
               <input
                 type="text"
                 id="editPhone"
                 class="form-control"
                 placeholder="Phone"
+                required
               />
             </div>
             <div>
+              <label for="editEmail" class="custom-label"> Email </label>
               <input
                 type="email"
                 id="editEmail"
