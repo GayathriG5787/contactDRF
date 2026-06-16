@@ -35,10 +35,7 @@ function renderContacts(contacts) {
 
     const deleteButton = clone.querySelector(".delete-btn");
 
-    deleteButton.addEventListener(
-        "click",
-        () => openDeleteModal(contact.id)
-    );
+    deleteButton.addEventListener("click", () => openDeleteModal(contact.id));
     container.appendChild(clone);
   });
 }
@@ -47,65 +44,52 @@ function renderContacts(contacts) {
 document.getElementById("contactForm").addEventListener("submit", addContact);
 
 async function addContact(e) {
-    e.preventDefault();
+  e.preventDefault();
 
+  clearError();
+
+  const form = document.getElementById("contactForm");
+
+  const contact = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+  };
+
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contact),
+  });
+
+  if (response.ok) {
     clearError();
+    form.reset();
+    loadContacts();
+    showSuccessToast("Contact saved successfully!");
+    return;
+  }
 
-    const form = document.getElementById("contactForm");
+  const errorData = await response.json();
 
-    const contact = {
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        email: document.getElementById("email").value,
-    };
-
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contact),
-    });
-
-    if (response.ok) {
-        clearError();
-        form.reset();
-        loadContacts();
-            showSuccessToast(
-        "Contact saved successfully!"
-    );
-        return;
-    }
-
-    const errorData = await response.json();
-
-    showError(formatErrors(errorData));
+  showError(formatErrors(errorData));
 }
 
 // Delete contacts
 async function deleteContact() {
+  await fetch(`${API_URL}${selectedDeleteId}/`, {
+    method: "DELETE",
+  });
 
-    await fetch(
-        `${API_URL}${selectedDeleteId}/`,
-        {
-            method: "DELETE"
-        }
-    );
+  const modalElement = document.getElementById("deleteModal");
 
-    const modalElement =
-        document.getElementById(
-            "deleteModal"
-        );
+  bootstrap.Modal.getInstance(modalElement).hide();
 
-    bootstrap.Modal
-        .getInstance(modalElement)
-        .hide();
+  loadContacts();
 
-    loadContacts();
-
-    showSuccessToast(
-        "Contact deleted successfully!"
-    );
+  showSuccessToast("Contact deleted successfully!");
 }
 
 let selectedContactId = null;
@@ -114,173 +98,102 @@ let selectedDeleteId = null;
 // Modal with prefilled values
 
 function openEditModal(contact) {
+  selectedContactId = contact.id;
 
-    selectedContactId =
-        contact.id;
+  document.getElementById("editName").value = contact.name;
 
-    document.getElementById(
-        "editName"
-    ).value = contact.name;
+  document.getElementById("editPhone").value = contact.phone;
 
-    document.getElementById(
-        "editPhone"
-    ).value = contact.phone;
+  document.getElementById("editEmail").value = contact.email;
 
-    document.getElementById(
-        "editEmail"
-    ).value = contact.email;
+  const modal = new bootstrap.Modal(document.getElementById("editModal"));
 
-    const modal =
-        new bootstrap.Modal(
-            document.getElementById(
-                "editModal"
-            )
-        );
-
-    modal.show();
+  modal.show();
 }
 
 // Edit contacts
 async function updateContact() {
+  const updatedData = {
+    name: document.getElementById("editName").value,
 
-    const updatedData = {
+    phone: document.getElementById("editPhone").value,
 
-        name:
-            document.getElementById(
-                "editName"
-            ).value,
+    email: document.getElementById("editEmail").value,
+  };
 
-        phone:
-            document.getElementById(
-                "editPhone"
-            ).value,
+  const response = await fetch(`${API_URL}${selectedContactId}/`, {
+    method: "PATCH",
 
-        email:
-            document.getElementById(
-                "editEmail"
-            ).value
-    };
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-    const response =
-        await fetch(
-            `${API_URL}${selectedContactId}/`,
-            {
-                method: "PATCH",
+    body: JSON.stringify(updatedData),
+  });
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+  if (response.ok) {
+    const modalElement = document.getElementById("editModal");
 
-                body: JSON.stringify(
-                    updatedData
-                )
-            }
-        );
+    bootstrap.Modal.getInstance(modalElement).hide();
 
-    if (response.ok) {
+    loadContacts();
 
-        const modalElement =
-            document.getElementById(
-                "editModal"
-            );
-
-        bootstrap.Modal
-            .getInstance(
-                modalElement
-            )
-            .hide();
-
-        loadContacts();
-
-            showSuccessToast(
-        "Contact updated successfully!"
-    );
-    }
-
+    showSuccessToast("Contact updated successfully!");
+  }
 }
 
-
-
-
-
 function showError(message) {
-    const errorDiv = document.getElementById("errorMessage");
-    errorDiv.textContent = message;
-    errorDiv.classList.remove("d-none");
+  const errorDiv = document.getElementById("errorMessage");
+  errorDiv.textContent = message;
+  errorDiv.classList.remove("d-none");
 }
 
 function clearError() {
-    const errorDiv = document.getElementById("errorMessage");
-    errorDiv.textContent = "";
-    errorDiv.classList.add("d-none");
+  const errorDiv = document.getElementById("errorMessage");
+  errorDiv.textContent = "";
+  errorDiv.classList.add("d-none");
 }
 
 function formatErrors(errors) {
-    return Object.entries(errors)
-        .map(([field, messages]) => {
-            return `${field}: ${messages.join(", ")}`;
-        })
-        .join("<br>");
+  return Object.entries(errors)
+    .map(([field, messages]) => {
+      return `${field}: ${messages.join(", ")}`;
+    })
+    .join("<br>");
 }
 
 function openDeleteModal(contactId) {
+  selectedDeleteId = contactId;
 
-    selectedDeleteId = contactId;
+  const modal = new bootstrap.Modal(document.getElementById("deleteModal"));
 
-    const modal =
-        new bootstrap.Modal(
-            document.getElementById(
-                "deleteModal"
-            )
-        );
-
-    modal.show();
+  modal.show();
 }
 
 function showError(message) {
-    const errorDiv = document.getElementById("errorMessage");
+  const errorDiv = document.getElementById("errorMessage");
 
-    errorDiv.innerHTML = message; // use innerHTML because of <br>
+  errorDiv.innerHTML = message; // use innerHTML because of <br>
 
-    errorDiv.classList.remove("d-none");
+  errorDiv.classList.remove("d-none");
 }
 
 function showSuccessToast(message) {
-    const toastElement =
-        document.getElementById("successToast");
+  const toastElement = document.getElementById("successToast");
 
-    toastElement.querySelector(
-        ".toast-body"
-    ).textContent = message;
+  toastElement.querySelector(".toast-body").textContent = message;
 
-    const toast =
-        new bootstrap.Toast(
-            toastElement,
-            {
-                delay: 3000
-            }
-        );
+  const toast = new bootstrap.Toast(toastElement, {
+    delay: 3000,
+  });
 
-    toast.show();
+  toast.show();
 }
 
-document
-    .getElementById(
-        "updateBtn"
-    )
-    .addEventListener(
-        "click",
-        updateContact
-    );
+document.getElementById("updateBtn").addEventListener("click", updateContact);
 
 document
-    .getElementById(
-        "confirmDeleteBtn"
-    )
-    .addEventListener(
-        "click",
-        deleteContact
-    );
+  .getElementById("confirmDeleteBtn")
+  .addEventListener("click", deleteContact);
 
 loadContacts();
