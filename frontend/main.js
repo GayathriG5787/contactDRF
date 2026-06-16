@@ -100,10 +100,10 @@ let selectedDeleteId = null;
 function openEditModal(contact) {
   selectedContactId = contact.id;
 
+  clearEditError();
+
   document.getElementById("editName").value = contact.name;
-
   document.getElementById("editPhone").value = contact.phone;
-
   document.getElementById("editEmail").value = contact.email;
 
   const modal = new bootstrap.Modal(document.getElementById("editModal"));
@@ -113,11 +113,11 @@ function openEditModal(contact) {
 
 // Edit contacts
 async function updateContact() {
+  clearEditError();
+
   const updatedData = {
     name: document.getElementById("editName").value,
-
     phone: document.getElementById("editPhone").value,
-
     email: document.getElementById("editEmail").value,
   };
 
@@ -139,7 +139,12 @@ async function updateContact() {
     loadContacts();
 
     showSuccessToast("Contact updated successfully!");
+
+    return;
   }
+  const errorData = await response.json();
+
+  showEditError(formatErrors(errorData));
 }
 
 function showError(message) {
@@ -160,6 +165,22 @@ function formatErrors(errors) {
       return `${field}: ${messages.join(", ")}`;
     })
     .join("<br>");
+}
+
+function showEditError(message) {
+  const errorDiv = document.getElementById("editErrorMessage");
+
+  errorDiv.innerHTML = message;
+
+  errorDiv.classList.remove("d-none");
+}
+
+function clearEditError() {
+  const errorDiv = document.getElementById("editErrorMessage");
+
+  errorDiv.innerHTML = "";
+
+  errorDiv.classList.add("d-none");
 }
 
 function openDeleteModal(contactId) {
