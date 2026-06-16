@@ -1,162 +1,176 @@
-        :root {
-        /* Professional Slate & Steel Color Palette */
-        --bg-color: #0f172a;
-        --card-bg: #1e293b;
-        --border-color: #334155;
-        --text-muted: #94a3b8;
-        --primary-accent: #3b82f6;
-        --primary-hover: #2563eb;
-        }
+:root {
+/* Professional Slate & Steel Color Palette */
+--bg-color: #0f172a;
+--card-bg: #1e293b;
+--border-color: #334155;
+--text-muted: #94a3b8;
+--primary-accent: #3b82f6;
+--primary-hover: #2563eb;
+}
 
-        body {
-        background-color: var(--bg-color);
-        color: #f8fafc;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        min-height: 100vh;
-        letter-spacing: -0.01em;
-        }
+body {
+background-color: var(--bg-color);
+color: #f8fafc;
+font-family: 'Plus Jakarta Sans', sans-serif;
+min-height: 100vh;
+letter-spacing: -0.01em;
+}
 
-        /* Professional Clean Cards */
-        .glass-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
+/* Professional Clean Cards */
+.glass-card {
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 6px;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 
-        /* Inputs Customization */
-        .form-control {
-        background-color: #0f172a;
-        border: 1px solid var(--border-color);
-        color: #fff;
-        border-radius: 4px;
-        padding: 0.6rem 1rem;
-        transition: all 0.2s ease;
-        }
+/* Form Labels */
+.custom-label {
+color: #e2e8f0;
+font-size: 0.9rem;
+font-weight: 500;
+margin-bottom: 0.45rem;
+}
 
-        .form-control:focus {
-        background-color: #0f172a;
-        border-color: var(--primary-accent);
-        color: #fff;
-        box-shadow: none;
-        }
+/* Required Field Indicator */
+.required {
+color: #ef4444;
+font-weight: 700;
+}
 
-        .form-control::placeholder {
-        color: var(--text-muted);
-        }
+/* Inputs Customization */
+.form-control {
+background-color: #0f172a;
+border: 1px solid var(--border-color);
+color: #fff;
+border-radius: 4px;
+padding: 0.6rem 1rem;
+transition: all 0.2s ease;
+}
 
-        /* Clean Button Designs */
-        .btn {
-        border-radius: 4px;
-        font-weight: 500;
-        padding: 0.6rem 1.2rem;
-        transition: all 0.2s ease;
-        }
-        .btn-primary {
-        background-color: var(--primary-accent);
-        border: none;
-        }
-        .btn-primary:hover {
-        background-color: var(--primary-hover);
-        }
+.form-control:focus {
+background-color: #0f172a;
+border-color: var(--primary-accent);
+color: #fff;
+box-shadow: none;
+}
 
-        /* Icon Buttons Formatting */
-        .icon-btn {
-        background: none;
-        border: none;
-        padding: 6px;
-        font-size: 1.2rem;
-        line-height: 1;
-        transition: color 0.2s ease;
-        }
-        .edit-btn { color: #f59e0b; }
-        .edit-btn:hover { color: #d97706; }
-        .delete-btn { color: #ef4444; }
-        .delete-btn:hover { color: #dc2626; }
+.form-control::placeholder {
+color: var(--text-muted);
+}
 
-        /* Divider style */
-        hr {
-        border-top: 1px solid var(--border-color);
-        opacity: 1;
-        margin: 2.5rem 0;
-        }
+/* Clean Button Designs */
+.btn {
+border-radius: 4px;
+font-weight: 500;
+padding: 0.6rem 1.2rem;
+transition: all 0.2s ease;
+}
+.btn-primary {
+background-color: var(--primary-accent);
+border: none;
+}
+.btn-primary:hover {
+background-color: var(--primary-hover);
+}
 
-        /* Dark Modals Styling */
-        .modal-content {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        color: #f8fafc;
-        }
-        .modal-header, .modal-footer {
-        border-color: var(--border-color);
-        }
-        .btn-close {
-        filter: invert(1);
-        }
+/* Icon Buttons Formatting */
+.icon-btn {
+background: none;
+border: none;
+padding: 6px;
+font-size: 1.2rem;
+line-height: 1;
+transition: color 0.2s ease;
+}
+.edit-btn { color: #f59e0b; }
+.edit-btn:hover { color: #d97706; }
+.delete-btn { color: #ef4444; }
+.delete-btn:hover { color: #dc2626; }
 
-        /* Wrapper for handling long continuous text strings gracefully */
-        .contact-details-container {
-        min-width: 0; 
-        flex: 1;
-        }
+/* Divider style */
+hr {
+border-top: 1px solid var(--border-color);
+opacity: 1;
+margin: 2.5rem 0;
+}
 
-        /* =========================================================
-        COMPACT & ULTRA-MICROSCOPIC RESPONSIVENESS (Down to 170px)
-        ========================================================= */
-        @media (max-width: 400px) {
-        .container {
-            padding-left: 8px !important;
-            padding-right: 8px !important;
-            margin-top: 1rem !important;
-        }
+/* Dark Modals Styling */
+.modal-content {
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 6px;
+color: #f8fafc;
+}
+.modal-header, .modal-footer {
+border-color: var(--border-color);
+}
+.btn-close {
+filter: invert(1);
+}
 
-        h1 {
-            font-size: 1.3rem !important;
-            text-align: center;
-        }
+/* Wrapper for handling long continuous text strings gracefully */
+.contact-details-container {
+min-width: 0; 
+flex: 1;
+}
 
-        .glass-card {
-            padding: 1rem !important;
-        }
+/* =========================================================
+COMPACT & ULTRA-MICROSCOPIC RESPONSIVENESS (Down to 170px)
+========================================================= */
+@media (max-width: 400px) {
+.container {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    margin-top: 1rem !important;
+}
 
-        .card-body {
-            padding: 12px !important;
-        }
+h1 {
+    font-size: 1.3rem !important;
+    text-align: center;
+}
 
-        .form-control, .btn {
-            font-size: 0.85rem !important;
-            padding: 0.5rem 0.7rem !important;
-        }
+.glass-card {
+    padding: 1rem !important;
+}
 
-        /* Force long text strings, emails, and numbers to wrap cleanly */
-        .contact-name {
-            font-size: 1rem !important;
-            white-space: normal;
-            word-break: break-word;
-        }
-        
-        .contact-phone, .contact-email {
-            font-size: 0.8rem !important;
-            white-space: normal;
-            word-break: break-all; 
-        }
-        }
+.card-body {
+    padding: 12px !important;
+}
 
-        /* The ultimate fallback breakpoint when components physically exhaust display widths */
-        @media (max-width: 280px) {
-        /* Safely drop flex elements into stacked configurations */
-        .card-body.d-flex {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 12px;
-        }
+.form-control, .btn {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.7rem !important;
+}
 
-        /* Align icon operations to the left margin once stacked */
-        .action-buttons-container {
-            width: 100%;
-            justify-content: flex-start;
-            border-top: 1px solid #334155;
-            padding-top: 8px;
-        }
-        }
+/* Force long text strings, emails, and numbers to wrap cleanly */
+.contact-name {
+    font-size: 1rem !important;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.contact-phone, .contact-email {
+    font-size: 0.8rem !important;
+    white-space: normal;
+    word-break: break-all; 
+}
+}
+
+/* The ultimate fallback breakpoint when components physically exhaust display widths */
+@media (max-width: 280px) {
+/* Safely drop flex elements into stacked configurations */
+.card-body.d-flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+}
+
+/* Align icon operations to the left margin once stacked */
+.action-buttons-container {
+    width: 100%;
+    justify-content: flex-start;
+    border-top: 1px solid #334155;
+    padding-top: 8px;
+}
+}

@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Contact Directory</title>
 
     <!-- Bootstrap CDN link -->
@@ -12,59 +12,68 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    
+
     <!-- Bootstrap icons -->
-    <link 
-      rel="stylesheet" 
+    <link
+      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    >
+    />
 
     <!-- Custom stylesheet -->
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <div class="container mt-5" style="max-width: 600px;">
-      <h1 class="mb-4 text-center fw-bold text-white">
-        Contact Directory
-      </h1>
+    <div class="container mt-5" style="max-width: 600px">
+      <h1 class="mb-4 text-center fw-bold text-white">Contact Directory</h1>
 
-      <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+      <div
+        id="errorMessage"
+        class="alert alert-danger d-none"
+        role="alert"
+      ></div>
 
       <div class="glass-card p-4 mb-4">
         <form id="contactForm">
           <div class="mb-3">
+            <label for="name" class="custom-label">
+              Name <span class="required">*</span>
+            </label>
             <input
               type="text"
               id="name"
               class="form-control"
-              placeholder="Name"
+              placeholder="Enter full name"
               required
             />
           </div>
 
           <div class="mb-3">
+            <label for="phone" class="custom-label">
+              Phone <span class="required">*</span>
+            </label>
             <input
               type="text"
               id="phone"
               class="form-control"
-              placeholder="Phone"
+              placeholder="Enter phone number"
               required
             />
           </div>
 
           <div class="mb-3">
+            <label for="email" class="custom-label"> Email </label>
             <input
               type="email"
               id="email"
               class="form-control"
-              placeholder="Email"
-              required
+              placeholder="Enter email address"
             />
           </div>
 
-          <button class="btn btn-primary w-100" type="submit">Save Contact</button>
+          <button class="btn btn-primary w-100" type="submit">
+            Save Contact
+          </button>
         </form>
       </div>
 
@@ -74,15 +83,24 @@
 
       <template id="contact-template">
         <div class="card glass-card mb-3">
-          <div class="card-body p-4 d-flex justify-content-between align-items-center">
-            
+          <div
+            class="card-body p-4 d-flex justify-content-between align-items-center"
+          >
             <div class="contact-details-container">
               <h5 class="contact-name fw-bold mb-2 text-white"></h5>
-              <p class="contact-phone text-muted mb-1" style="font-size: 0.95rem;"></p>
-              <p class="contact-email text-muted mb-0" style="font-size: 0.95rem;"></p>
+              <p
+                class="contact-phone text-muted mb-1"
+                style="font-size: 0.95rem"
+              ></p>
+              <p
+                class="contact-email text-muted mb-0"
+                style="font-size: 0.95rem"
+              ></p>
             </div>
-            
-            <div class="action-buttons-container d-flex gap-2 align-items-center">
+
+            <div
+              class="action-buttons-container d-flex gap-2 align-items-center"
+            >
               <button class="icon-btn edit-btn" title="Edit Contact">
                 <i class="bi bi-pencil-square"></i>
               </button>
@@ -90,7 +108,6 @@
                 <i class="bi bi-trash3-fill"></i>
               </button>
             </div>
-
           </div>
         </div>
       </template>
@@ -111,13 +128,28 @@
 
           <div class="modal-body">
             <div class="mb-3">
-              <input type="text" id="editName" class="form-control" placeholder="Name" />
+              <input
+                type="text"
+                id="editName"
+                class="form-control"
+                placeholder="Name"
+              />
             </div>
             <div class="mb-3">
-              <input type="text" id="editPhone" class="form-control" placeholder="Phone" />
+              <input
+                type="text"
+                id="editPhone"
+                class="form-control"
+                placeholder="Phone"
+              />
             </div>
             <div>
-              <input type="email" id="editEmail" class="form-control" placeholder="Email" />
+              <input
+                type="email"
+                id="editEmail"
+                class="form-control"
+                placeholder="Email"
+              />
             </div>
           </div>
 
@@ -134,64 +166,58 @@
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Contact</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
 
-      <div class="modal-header">
-        <h5 class="modal-title">Delete Contact</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close">
-        </button>
+          <div class="modal-body">
+            Are you sure you want to delete this contact?
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+
+            <button id="confirmDeleteBtn" type="button" class="btn btn-danger">
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div class="modal-body">
-        Are you sure you want to delete this contact?
-      </div>
-
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal">
-          Cancel
-        </button>
-
-        <button
-          id="confirmDeleteBtn"
-          type="button"
-          class="btn btn-danger">
-          Delete
-        </button>
-      </div>
-
     </div>
-  </div>
-</div>
 
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-  <div
-    id="successToast"
-    class="toast align-items-center text-white bg-success border-0"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-  >
-    <div class="d-flex">
-      <div class="toast-body">
-        Contact saved successfully!
+      <div
+        id="successToast"
+        class="toast align-items-center text-white bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body">Contact saved successfully!</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
       </div>
-      <button
-        type="button"
-        class="btn-close btn-close-white me-2 m-auto"
-        data-bs-dismiss="toast"
-        aria-label="Close"
-      ></button>
     </div>
-  </div>
-</div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
