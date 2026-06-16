@@ -29,6 +29,10 @@ function renderContacts(contacts) {
 
     clone.querySelector(".contact-email").textContent = contact.email;
 
+    const deleteButton = clone.querySelector(".delete-btn");
+
+    deleteButton.addEventListener("click", () => deleteContact(contact.id));
+
     container.appendChild(clone);
   });
 }
@@ -50,15 +54,31 @@ async function addContact(e) {
     email: document.getElementById("email").value,
   };
 
-//   fetch sends an HTTP request
+  //   fetch sends an HTTP request
   await fetch(API_URL, {
     method: "POST",
 
+    // For backend to understand the format of the data (JSON) that we are sending
     headers: {
       "Content-Type": "application/json",
     },
 
     body: JSON.stringify(contact),
+  });
+
+  loadContacts();
+}
+
+// Delete contacts
+async function deleteContact(contactId) {
+  const confirmed = confirm("Are you sure you want to delete this contact?");
+
+  if (!confirmed) {
+    return;
+  }
+
+  await fetch(`${API_URL}${contactId}/`, {
+    method: "DELETE",
   });
 
   loadContacts();
