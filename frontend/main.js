@@ -66,6 +66,7 @@ async function addContact(e) {
     });
 
     if (response.ok) {
+        clearError();
         form.reset();
         loadContacts();
         return;
@@ -73,7 +74,7 @@ async function addContact(e) {
 
     const errorData = await response.json();
 
-    showError(JSON.stringify(errorData));
+    showError(formatErrors(errorData));
 }
 
 // Delete contacts
@@ -202,6 +203,16 @@ function clearError() {
 
 function formatErrors(errors) {
     return Object.entries(errors)
-        .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
-        .join(" | ");
+        .map(([field, messages]) => {
+            return `${field}: ${messages.join(", ")}`;
+        })
+        .join("<br>");
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById("errorMessage");
+
+    errorDiv.innerHTML = message; // use innerHTML because of <br>
+
+    errorDiv.classList.remove("d-none");
 }
