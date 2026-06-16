@@ -8,6 +8,12 @@ from .serializers import ContactSerializer
 class ContactListCreateView(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+  
+# GET, PUT, PATCH and DELETE of individual contacts
+# PUT can be used when you want to update all fields of a particular contact, and PATCH can be used when you want to update one or two fields. 
+class ContactDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
     
     
 
