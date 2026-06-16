@@ -15,8 +15,8 @@ class Contact(models.Model):
             RegexValidator(
                 # r = raw string (don't treat backslashes special)
                 # ^ is start of string, \d is digit (0-9), {10} is exactly 10 digits and $ is end of string
-                regex=r'^\d{10}$', 
-                message='Phone number must contain exactly 10 digits'
+                regex=r'^[6-9]\d{9}$', 
+                message='Kindly enter a valid phone number.'
             )
         ]
         )
