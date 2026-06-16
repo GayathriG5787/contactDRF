@@ -31,7 +31,7 @@ function renderContacts(contacts) {
 
     const editButton = clone.querySelector(".edit-btn");
 
-    editButton.addEventListener("click", () => editContact(contact));
+    editButton.addEventListener("click", () => openEditModal(contact));
 
     const deleteButton = clone.querySelector(".delete-btn");
 
@@ -40,8 +40,6 @@ function renderContacts(contacts) {
     container.appendChild(clone);
   });
 }
-
-loadContacts();
 
 // Add Contacts (POST)
 document.getElementById("contactForm").addEventListener("submit", addContact);
@@ -88,55 +86,100 @@ async function deleteContact(contactId) {
   loadContacts();
 }
 
+let selectedContactId = null;
+
+// Modal with prefilled values
+
+function openEditModal(contact) {
+
+    selectedContactId =
+        contact.id;
+
+    document.getElementById(
+        "editName"
+    ).value = contact.name;
+
+    document.getElementById(
+        "editPhone"
+    ).value = contact.phone;
+
+    document.getElementById(
+        "editEmail"
+    ).value = contact.email;
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "editModal"
+            )
+        );
+
+    modal.show();
+}
+
 // Edit contacts
-async function editContact(contact) {
+async function updateContact() {
 
-    const newName = prompt(
-        "Enter new name",
-        contact.name
-    );
+    const updatedData = {
 
-    if (newName === null) {
-        return;
-    }
+        name:
+            document.getElementById(
+                "editName"
+            ).value,
 
-    const newPhone = prompt(
-        "Enter new phone",
-        contact.phone
-    );
+        phone:
+            document.getElementById(
+                "editPhone"
+            ).value,
 
-    if (newPhone === null) {
-        return;
-    }
+        email:
+            document.getElementById(
+                "editEmail"
+            ).value
+    };
 
-    const newEmail = prompt(
-        "Enter new email",
-        contact.email
-    );
+    const response =
+        await fetch(
+            `${API_URL}${selectedContactId}/`,
+            {
+                method: "PATCH",
 
-    if (newEmail === null) {
-        return;
-    }
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
 
-    const response = await fetch(
-        `${API_URL}${contact.id}/`,
-        {
-            method: "PATCH",
-
-            headers: {
-                "Content-Type":
-                    "application/json"
-            },
-
-            body: JSON.stringify({
-                name: newName,
-                phone: newPhone,
-                email: newEmail
-            })
-        }
-    );
+                body: JSON.stringify(
+                    updatedData
+                )
+            }
+        );
 
     if (response.ok) {
+
+        const modalElement =
+            document.getElementById(
+                "editModal"
+            );
+
+        bootstrap.Modal
+            .getInstance(
+                modalElement
+            )
+            .hide();
+
         loadContacts();
     }
 }
+
+loadContacts();
+
+document
+    .getElementById(
+        "updateBtn"
+    )
+    .addEventListener(
+        "click",
+        updateContact
+    );
+
